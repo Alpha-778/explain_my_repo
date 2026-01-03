@@ -10,7 +10,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyA1L791AoaIybwdorXqryWfFOzJKmhapt8')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
 
 IGNORE_FOLDERS = {
@@ -447,3 +447,4 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
     app.run(host='0.0.0.0', port=port, debug=debug)
+
