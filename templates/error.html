@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Error - Explain My Repo{% endblock %}
+
+{% block content %}
+<section class="error-section">
+    <div class="error-card">
+        <div class="error-icon">
+            {% if error_type == 'validation' %}
+            ⚠️
+            {% elif error_type == 'github' %}
+            🔍
+            {% elif error_type == 'gemini' %}
+            🤖
+            {% else %}
+            ❌
+            {% endif %}
+        </div>
+        
+        <h1 class="error-title">
+            {% if error_type == 'validation' %}
+            Invalid Input
+            {% elif error_type == 'github' %}
+            Repository Not Found
+            {% elif error_type == 'gemini' %}
+            Analysis Failed
+            {% else %}
+            Something Went Wrong
+            {% endif %}
+        </h1>
+        
+        <p class="error-message">{{ error }}</p>
+        
+        <div class="error-help">
+            {% if error_type == 'validation' %}
+            <p>Please enter a valid GitHub URL in this format:</p>
+            <code>https://github.com/username/repository</code>
+            {% elif error_type == 'github' %}
+            <p>Make sure:</p>
+            <ul>
+                <li>The repository URL is correct</li>
+                <li>The repository is public (not private)</li>
+                <li>The repository exists and hasn't been deleted</li>
+            </ul>
+            {% elif error_type == 'gemini' %}
+            <p>The AI analysis service encountered an issue. Please try again in a moment.</p>
+            {% endif %}
+        </div>
+        
+        <a href="/" class="action-btn primary">← Try Again</a>
+    </div>
+</section>
+{% endblock %}

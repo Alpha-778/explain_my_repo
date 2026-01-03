@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis: {{ owner }}/{{ repo }} - Explain My Repo{% endblock %}
+
+{% block content %}
+<section class="results-header">
+    <a href="/" class="back-link">← Analyze another repo</a>
+    
+    <div class="repo-info">
+        <h1 class="repo-name">
+            <a href="{{ github_url }}" target="_blank" rel="noopener">
+                {{ owner }}/<strong>{{ repo }}</strong>
+                <span class="external-icon">↗</span>
+            </a>
+        </h1>
+        {% if repo_data.description %}
+        <p class="repo-description">{{ repo_data.description }}</p>
+        {% endif %}
+        <div class="repo-meta">
+            {% if repo_data.language %}
+            <span class="meta-item">
+                <span class="meta-dot" style="background-color: #3178c6;"></span>
+                {{ repo_data.language }}
+            </span>
+            {% endif %}
+            <span class="meta-item">⭐ {{ repo_data.stars }}</span>
+            <span class="meta-item">🔱 {{ repo_data.forks }}</span>
+        </div>
+    </div>
+</section>
+
+<section class="results-grid">
+    <article class="result-card featured">
+        <div class="card-header">
+            <span class="card-icon">⚡</span>
+            <h2>30-Second Recruiter Summary</h2>
+        </div>
+        <div class="card-content">
+            <p class="summary-text">{{ sections.recruiter_summary }}</p>
+        </div>
+    </article>
+    
+    <article class="result-card">
+        <div class="card-header">
+            <span class="card-icon">🛠️</span>
+            <h2>Tech Stack Used</h2>
+        </div>
+        <div class="card-content">
+            {{ sections.tech_stack | safe | replace('\n', '<br>') }}
+        </div>
+    </article>
+    
+    <article class="result-card">
+        <div class="card-header">
+            <span class="card-icon">📋</span>
+            <h2>Project Type</h2>
+        </div>
+        <div class="card-content">
+            {{ sections.project_type | safe | replace('\n', '<br>') }}
+        </div>
+    </article>
+    
+    <article class="result-card">
+        <div class="card-header">
+            <span class="card-icon">🏗️</span>
+            <h2>Architecture Overview</h2>
+        </div>
+        <div class="card-content">
+            <div class="architecture-description">
+                {{ sections.architecture_description | safe | replace('\n', '<br>') }}
+            </div>
+            {% if sections.architecture_mermaid %}
+            <div class="mermaid">
+                {{ sections.architecture_mermaid }}
+            </div>
+            {% endif %}
+        </div>
+    </article>
+    
+    <article class="result-card">
+        <div class="card-header">
+            <span class="card-icon">💡</span>
+            <h2>What This Project Does</h2>
+        </div>
+        <div class="card-content">
+            {{ sections.what_it_does | safe | replace('\n', '<br>') }}
+        </div>
+    </article>
+</section>
+
+<section class="structure-section">
+    <details class="structure-details">
+        <summary class="structure-summary">
+            <span class="folder-icon">📁</span>
+            View Repository Structure
+            <span class="toggle-icon">▼</span>
+        </summary>
+        <div class="structure-content">
+            <ul class="file-tree">
+                {% for item in repo_data.structure %}
+                <li class="tree-item {{ 'is-folder' if item.type == 'dir' else 'is-file' }}">
+                    <span class="item-icon">{{ '📁' if item.type == 'dir' else '📄' }}</span>
+                    <span class="item-name">{{ item.name }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </details>
+</section>
+
+<section class="actions">
+    <a href="/" class="action-btn primary">Analyze Another Repo</a>
+    <a href="{{ github_url }}" target="_blank" rel="noopener" class="action-btn secondary">
+        View on GitHub ↗
+    </a>
+</section>
+{% endblock %}

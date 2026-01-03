@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Explain My Repo - Understand GitHub Projects Instantly{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Paste a GitHub URL,<br>Get a Plain-English Explanation</h1>
+    <p class="hero-subtitle">
+        Perfect for recruiters who want to understand what a candidate's project 
+        actually does — without reading code.
+    </p>
+</section>
+
+{% if show_rate_warning %}
+<div class="warning-banner">
+    ⚠️ <strong>Low API Quota:</strong> GitHub API requests are limited. 
+    <a href="https://github.com/settings/tokens" target="_blank">Get a free token</a> to increase limits.
+</div>
+{% endif %}
+
+<section class="form-section">
+    <form action="/analyze" method="POST" class="analyze-form" id="analyzeForm">
+        <div class="input-group">
+            <label for="github_url" class="input-label">GitHub Repository URL</label>
+            <input 
+                type="url" 
+                id="github_url" 
+                name="github_url" 
+                class="url-input"
+                placeholder="https://github.com/username/repository"
+                required
+                autocomplete="off"
+                spellcheck="false"
+            >
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+            <span class="btn-text">Analyze Repository</span>
+            <span class="btn-loading" style="display: none;">
+                <span class="spinner"></span>
+                Analyzing... (takes 5-10 seconds)
+            </span>
+        </button>
+    </form>
+    
+    <div class="examples">
+        <p class="examples-label">Try these examples:</p>
+        <div class="example-links">
+            <button type="button" class="example-btn" data-url="https://github.com/facebook/react">
+                facebook/react
+            </button>
+            <button type="button" class="example-btn" data-url="https://github.com/pallets/flask">
+                pallets/flask
+            </button>
+            <button type="button" class="example-btn" data-url="https://github.com/microsoft/vscode">
+                microsoft/vscode
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <h2>What You'll Get</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🛠️</div>
+            <h3>Tech Stack</h3>
+            <p>Languages, frameworks, and tools used in the project</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Project Type</h3>
+            <p>Is it a web app, API, tool, or library?</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏗️</div>
+            <h3>Architecture</h3>
+            <p>How the project is organized and structured</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💡</div>
+            <h3>What It Does</h3>
+            <p>The purpose and main features explained</p>
+        </div>
+        <div class="feature-card highlight">
+            <div class="feature-icon">⚡</div>
+            <h3>30-Second Summary</h3>
+            <p>Plain English explanation — zero jargon, perfect for recruiters</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('analyzeForm').addEventListener('submit', function() {
+        var btn = document.getElementById('submitBtn');
+        var btnText = btn.querySelector('.btn-text');
+        var btnLoading = btn.querySelector('.btn-loading');
+        
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline-flex';
+        btn.disabled = true;
+    });
+    
+    document.querySelectorAll('.example-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.getElementById('github_url').value = this.dataset.url;
+        });
+    });
+</script>
+{% endblock %}
