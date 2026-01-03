@@ -58,10 +58,16 @@ This project removes that friction by summarizing a repo in a way that’s under
 
 ## Project Structure
 
+
 ```text
 explain_my_repo/
-├── app.py              # Main backend application
-├── templates/          # HTML templates
-├── static/             # CSS and JS files
-├── requirements.txt    # Python dependencies
+├── app.py                  # Flask backend entry point
+├── requirements.txt        # Python dependencies
+├── static/                 # CSS, client JavaScript, images
+│   └── style.css
+├── templates/              # HTML templates rendered by Flask
+│   ├── base.html
+│   ├── error.html
+│   ├── index.html
+│   └── results.html
 └── README.md
