@@ -207,7 +207,7 @@ def fetch_github_data(owner, repo):
 
 
 def call_gemini_api(prompt):
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={GEMINI_API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={GEMINI_API_KEY}"
     
     headers = {
         'Content-Type': 'application/json'
@@ -447,5 +447,6 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     debug = os.getenv('FLASK_DEBUG', 'True').lower() == 'true'
     app.run(host='0.0.0.0', port=port, debug=debug)
+
 
 
